@@ -1,4 +1,4 @@
-package simpleAlgorithm;
+package SimpleQueryAlgorithm;
 
 import Exceptions.BadFormedException;
 import StreamingAlgorithmXPath.*;
@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class simpleAlgorithm implements StreamingAlgorithm {
+public class SimpleQueryAlgorithm implements StreamingAlgorithm {
     private String[] queryParameters;
     private LinkedList<XMLElement> seq;
     private List<Integer> nodeNumberList;
     private int nodeNumber;
     private int lineNumber;
 
-    public simpleAlgorithm(String query) {
+    public SimpleQueryAlgorithm(String query) {
         nodeNumber = 0;
         lineNumber = 0;
         this.queryParameters = getQueryParameters(query);
