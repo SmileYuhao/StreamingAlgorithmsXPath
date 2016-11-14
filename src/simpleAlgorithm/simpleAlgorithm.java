@@ -1,5 +1,6 @@
 package simpleAlgorithm;
 
+import Exceptions.BadFormedException;
 import StreamingAlgorithmXPath.*;
 
 import java.util.ArrayList;
@@ -11,9 +12,11 @@ public class simpleAlgorithm implements StreamingAlgorithm {
     private LinkedList<XMLElement> seq;
     private List<Integer> nodeNumberList;
     private int nodeNumber;
+    private int lineNumber;
 
     public simpleAlgorithm(String query) {
         nodeNumber = 0;
+        lineNumber = 0;
         this.queryParameters = getQueryParameters(query);
         seq = new LinkedList<>();
         nodeNumberList = new ArrayList<>();
@@ -24,22 +27,25 @@ public class simpleAlgorithm implements StreamingAlgorithm {
     }
 
     public void processXmlLine(String line) {
+        lineNumber++;
         // Create new xml element
         String[] lineParameters = line.split("\\s");
         int startEnd = Integer.parseInt(lineParameters[0]);
         String name = lineParameters[1];
         XMLElement xmlElement = new XMLElement(startEnd, name);
 
-        // Get the top xml element
-        XMLElement xmlElementPrev = seq.peek();
-
-        // Check
+        // Check with previous xml element
         if (xmlElement.getStartEnd() == 1) {
-            if (xmlElementPrev.getStartEnd() == 0 && xmlElementPrev.getName().equals(xmlElement.getName())) {
-                seq.pop();
-            }
+            // Get the top xml element
+            XMLElement xmlElementPrev = seq.peek();
+            // Throw BadFormedException if can't close element
+            if (xmlElementPrev == null ||
+                    xmlElementPrev.getStartEnd() != 0 || !xmlElementPrev.getName().equals(xmlElement.getName()))
+                throw new BadFormedException(lineNumber);
+            seq.pop();
         } else {
             seq.push(xmlElement);
+            // Check query match
             if (seq.size() >= queryParameters.length &&
                     xmlElement.getName().equals(queryParameters[queryParameters.length - 1])) {
                 if (matchCheck()) {
