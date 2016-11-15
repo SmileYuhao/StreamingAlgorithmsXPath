@@ -44,6 +44,7 @@ public class XpathToNFA {
                     NFATrans currentNext = new NFATrans(next.getStateNumber(), childParameters[j]);
                     current.addTransitions(currentNext);
                     this.nfaMap.put(current.getStateNumber(), current);
+                    temp = next;
                 }
             }
         }
