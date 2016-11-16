@@ -26,6 +26,9 @@ public class SimpleQueryAlgorithm implements StreamingAlgorithm {
         return query.substring(2).split("/");
     }
 
+    /**
+     * @throws BadFormedException If XML file isn't good formed
+     */
     public void processXmlLine(String line) {
         lineNumber++;
         // Create new xml element
