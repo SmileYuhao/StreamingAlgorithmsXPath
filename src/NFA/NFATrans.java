@@ -13,7 +13,7 @@ public class NFATrans {
         this.transSymbol = transSymbol;
     }
 
-    public int getDestination() {
+    public int getStateNumber() {
         return stateNumber;
     }
 
