@@ -1,15 +1,11 @@
 package NFA;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class XpathToNFA {
-    private HashMap<Integer, NFANode> nfaMap;
-
-    public XpathToNFA() {
-        this.nfaMap = new HashMap<>();
-    }
-
-    public void processXPath(String query) {
+    public static Map<Integer, NFANode> processXPath(String query) {
+        Map<Integer, NFANode> nfaMap = new HashMap<>();
         int numberState = 0;
         // Descendant parameters
         String[] descendantParameters = query.substring(2).split("//");
@@ -29,31 +25,31 @@ public class XpathToNFA {
                     NFANode current = new NFANode(numberState++, false);
                     NFANode next = new NFANode(numberState++, false);
                     // Set transaction
-                    NFATrans startCurrent = new NFATrans(current.getStateNumber(), "E");
-                    NFATrans currentNext = new NFATrans(next.getStateNumber(), childParameters[j]);
+                    NFATran startCurrent = new NFATran(current.getStateNumber(), "E");
+                    NFATran currentNext = new NFATran(next.getStateNumber(), childParameters[j]);
+                    // Consider reflexive relation
+                    NFATran nextCurrent = new NFATran(current.getStateNumber(), "E");
                     // Add transaction
                     start.addTransitions(startCurrent);
                     current.addTransitions(currentNext);
+                    next.addTransitions(nextCurrent);
                     // Add nfa node into list
-                    this.nfaMap.put(start.getStateNumber(), start);
-                    this.nfaMap.put(current.getStateNumber(), current);
+                    nfaMap.put(start.getStateNumber(), start);
+                    nfaMap.put(current.getStateNumber(), current);
                     temp = next;
                 } else {
                     NFANode current = temp;
                     NFANode next = new NFANode(numberState++, false);
-                    NFATrans currentNext = new NFATrans(next.getStateNumber(), childParameters[j]);
+                    NFATran currentNext = new NFATran(next.getStateNumber(), childParameters[j]);
                     current.addTransitions(currentNext);
-                    this.nfaMap.put(current.getStateNumber(), current);
+                    nfaMap.put(current.getStateNumber(), current);
                     temp = next;
                 }
             }
         }
         NFANode endState = temp;
         endState.setEndState(true);
-        this.nfaMap.put(endState.getStateNumber(), endState);
-    }
-
-    public String getNfaMap() {
-        return nfaMap.toString();
+        nfaMap.put(endState.getStateNumber(), endState);
+        return nfaMap;
     }
 }

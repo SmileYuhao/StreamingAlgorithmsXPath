@@ -6,7 +6,7 @@ import java.util.List;
 public class NFANode {
     private int stateNumber;
     private boolean endState;
-    private List<NFATrans> transitions;
+    private List<NFATran> transitions;
 
     /**
      * @param stateNumber State's number
@@ -33,11 +33,11 @@ public class NFANode {
         this.endState = endState;
     }
 
-    public List<NFATrans> getTransitions() {
+    public List<NFATran> getTransitions() {
         return transitions;
     }
 
-    public void addTransitions(NFATrans nfaTrans) {
-        this.transitions.add(nfaTrans);
+    public void addTransitions(NFATran nfaTran) {
+        this.transitions.add(nfaTran);
     }
 }
