@@ -5,7 +5,7 @@ public class NFATran {
     private String transSymbol;
 
     /**
-     * @param nextStateNumber Transaction's destination (state's number)
+     * @param nextStateNumber Transition's destination (state's number)
      * @param transSymbol     Transfer conditions
      */
     public NFATran(int nextStateNumber, String transSymbol) {

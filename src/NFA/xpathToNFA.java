@@ -9,47 +9,38 @@ public class XpathToNFA {
         int numberState = 0;
         // Descendant parameters
         String[] descendantParameters = query.substring(2).split("//");
-        NFANode temp = new NFANode();
-        for (int i = 0; i < descendantParameters.length; i++) {
-            String[] childParameters = descendantParameters[i].split("/");
-            for (int j = 0; j < childParameters.length; j++) {
+        // Put state 0 into map
+        NFANode firstNode = new NFANode(numberState++, false, false);
+        nfaMap.put(firstNode.getStateNumber(), firstNode);
+        for (String descendantParameter : descendantParameters) {
+            String[] childParameters = descendantParameter.split("/");
+            for (int i = 0; i < childParameters.length; i++) {
                 // First element of child parameter
-                if (j == 0) {
-                    NFANode start;
-                    if (i == 0) {
-                        // First element of query
-                        start = new NFANode(numberState++, false);
-                    } else {
-                        start = temp;
-                    }
-                    NFANode current = new NFANode(numberState++, false);
-                    NFANode next = new NFANode(numberState++, false);
+                if (i == 0) {
+                    NFANode start = nfaMap.get(numberState - 1);
+                    NFANode current = new NFANode(numberState++, false, true);
+                    NFANode next = new NFANode(numberState++, false, false);
                     // Set transaction
                     NFATran startCurrent = new NFATran(current.getStateNumber(), "E");
-                    NFATran currentNext = new NFATran(next.getStateNumber(), childParameters[j]);
-                    // Consider reflexive relation
-                    NFATran nextCurrent = new NFATran(current.getStateNumber(), "E");
+                    NFATran currentNext = new NFATran(next.getStateNumber(), childParameters[i]);
                     // Add transaction
                     start.addTransitions(startCurrent);
                     current.addTransitions(currentNext);
-                    next.addTransitions(nextCurrent);
                     // Add nfa node into list
                     nfaMap.put(start.getStateNumber(), start);
                     nfaMap.put(current.getStateNumber(), current);
-                    temp = next;
+                    nfaMap.put(next.getStateNumber(), next);
                 } else {
-                    NFANode current = temp;
-                    NFANode next = new NFANode(numberState++, false);
-                    NFATran currentNext = new NFATran(next.getStateNumber(), childParameters[j]);
+                    NFANode current = nfaMap.get(numberState - 1);
+                    NFANode next = new NFANode(numberState++, false, false);
+                    NFATran currentNext = new NFATran(next.getStateNumber(), childParameters[i]);
                     current.addTransitions(currentNext);
-                    nfaMap.put(current.getStateNumber(), current);
-                    temp = next;
+                    nfaMap.put(next.getStateNumber(), next);
                 }
             }
         }
-        NFANode endState = temp;
+        NFANode endState = nfaMap.get(numberState - 1);
         endState.setEndState(true);
-        nfaMap.put(endState.getStateNumber(), endState);
         return nfaMap;
     }
 }
