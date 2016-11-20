@@ -1,29 +1,35 @@
-package SimpleQueryAlgorithm;
+package SimpleQuery;
 
 import Exceptions.BadFormedException;
-import StreamingAlgorithmXPath.*;
+import StreamingAlgorithmXPath.StreamingAlgorithm;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class SimpleQueryAlgorithm implements StreamingAlgorithm {
+    /**
+     * queryParameters: Split query into array
+     * seq: Ancestors of the current node
+     * nodeNumberList: List of node number which are matched
+     * nodeNumber: XML element number
+     * lineNUmber: line number of xml file
+     */
     private String[] queryParameters;
     private LinkedList<XMLElement> seq;
     private List<Integer> nodeNumberList;
     private int nodeNumber;
     private int lineNumber;
 
-    public SimpleQueryAlgorithm(String query) {
+    public SimpleQueryAlgorithm() {
         nodeNumber = 0;
         lineNumber = 0;
-        this.queryParameters = getQueryParameters(query);
         seq = new LinkedList<>();
         nodeNumberList = new ArrayList<>();
     }
 
-    private String[] getQueryParameters(String query) {
-        return query.substring(2).split("/");
+    public void startDocument(String query) {
+        this.queryParameters = query.substring(2).split("/");
     }
 
     /**
@@ -72,6 +78,9 @@ public class SimpleQueryAlgorithm implements StreamingAlgorithm {
     }
 
     public String getNodeNumber() {
-        return nodeNumberList.toString();
+        StringBuilder result = new StringBuilder();
+        for (Integer nodeNumber : nodeNumberList)
+            result.append(nodeNumber).append("\n");
+        return result.toString();
     }
 }
