@@ -1,4 +1,4 @@
-package StreamingAlgorithmXPath;
+package SimpleQuery;
 
 public class XMLElement {
     private int startEnd;
