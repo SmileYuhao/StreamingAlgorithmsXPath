@@ -6,8 +6,11 @@ import java.util.Set;
 
 public class DFANode {
     private int stateNumber;
+    // If one of the NFA states is endState
     private boolean endState;
+    // A corresponding set of states from the NFA
     private Set<Integer> nfaStates;
+    // key: Input symbol, value: Next DFA number
     private Map<String, Integer> transitions;
 
     public DFANode(int stateNumber, boolean endState, Set<Integer> nfaNodes) {
