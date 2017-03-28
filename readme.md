@@ -1,13 +1,19 @@
-###Streaming Algorithms for XPath
+### Streaming Algorithms for XPath
 
 > The objective of this programming assignment is to be able to implement and analyze efficient algorithms for fragments of XPath queries. 
 
-1. Preliminaries	This assignment will use the streaming format for the XML. An XML document will be given as input to the implemented algorithms a whitespace delimited file having the following format:
+1. Preliminaries
+
+	This assignment will use the streaming format for the XML. An XML document will be given as input to the implemented algorithms a whitespace delimited file having the following format:
 	
 	```
-	0|1 <whitespace> element1  	0|1 <whitespace> element2
+	0|1 <whitespace> element1
+  	0|1 <whitespace> element2
   	```
-  	where 0|1 is a bit indicating a startElement or endElement event respectively, and element is the name of the element.2. Assignments	* Assignment 1 - SimpleQuery
+  	where 0|1 is a bit indicating a startElement or endElement event respectively, and element is the name of the element.
+
+2. Assignments
+	* Assignment 1 - SimpleQuery
 	
 		Implement a streaming algorithm for XPath queries of the form 
 		<p align="center">//e<sub>1</sub>/e<sub>2</sub>/.../e<sub>n</sub></p>
@@ -15,8 +21,10 @@
 	
 	* Assignment 2 - LazyDFA
 
-		Implement a streaming algorithm using the lazy DFA method explained in 	for queries of the form: 
-	<p align="center">//p<sub>1</sub>//p<sub>2</sub>//...//p<sub>n</sub></p>	where each p<sub>i</sub> is an path of the form:
+		Implement a streaming algorithm using the lazy DFA method explained in 
+	for queries of the form: 
+	<p align="center">//p<sub>1</sub>//p<sub>2</sub>//...//p<sub>n</sub></p>
+	where each p<sub>i</sub> is an path of the form:
 	<p align="center">e<sub>i1</sub>/e<sub>i2</sub>/.../e<sub>im</sub></p>
 	and e<sub>ij</sub> are element names.
 	
